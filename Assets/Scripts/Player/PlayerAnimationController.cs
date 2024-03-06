@@ -20,7 +20,6 @@ public class PlayerAnimationController : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        Debug.Log(horizontalInput + ", " + verticalInput);
         if (Between(horizontalInput, -0.5f, 0.5f) && Between(verticalInput, -0.5f, 0.5f)) 
         {
             Debug.Log("Idle");
