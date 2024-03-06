@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
 
     private Rigidbody rb;
-    private int speed = 1200;
+    private int speed = 800;
     public GameObject gun;
     public float bulletSpeed = 20f;
 
