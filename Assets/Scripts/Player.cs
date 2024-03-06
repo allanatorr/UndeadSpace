@@ -2,18 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
 {
-
-    private Rigidbody rb;
-    private int speed = 1200;
+    public int speed = 10;
     public GameObject gun;
     public float bulletSpeed = 20f;
 
     public float shootingCooldown = 0.5f; // Cooldown-Zeit in Sekunden zwischen den Schüssen
 
     private float shootingTimer; // Timer, der verfolgt, wann zuletzt geschossen wurde
+    private CharacterController characterController;
 
     void Awake() {
 
@@ -22,7 +20,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        characterController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -30,7 +28,8 @@ public class Player : MonoBehaviour
     {
         shootingTimer += Time.deltaTime;
 
-        HandleMovementInput();
+        //HandleMovementInput();
+        HandleMovementCharacterController();
         HandlePlayerToMouseRelationship();
 
         if (Input.GetButton("Fire1") && shootingTimer >= shootingCooldown)
@@ -46,12 +45,23 @@ public class Player : MonoBehaviour
        
     }
 
+    void HandleMovementCharacterController()
+    {
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+
+        Vector3 moveDirection = new Vector3(h, 0.0f, v);
+        moveDirection = transform.TransformDirection(moveDirection);
+        moveDirection *= speed;
+        characterController.Move(moveDirection * Time.deltaTime);
+    }
+
     void HandleMovementInput() {
 
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-        rb.AddForce(Vector3.right * speed * h * Time.deltaTime);
-        rb.AddForce(Vector3.forward * speed * v * Time.deltaTime);
+        //rb.AddForce(Vector3.right * speed * h * Time.deltaTime);
+        //rb.AddForce(Vector3.forward * speed * v * Time.deltaTime);
     }
 
     void HandlePlayerToMouseRelationship() {
