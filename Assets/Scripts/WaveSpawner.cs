@@ -8,7 +8,7 @@ public class WaveSpawner : MonoBehaviour
     public GameObject enemyPrefab;
     public GameObject player;
     
-    private int currentWave = 20;
+    private int currentWave = 30;
     private int enemiesAlive = 0;
     private bool waitingForNextWave = false;
     
@@ -23,6 +23,11 @@ public class WaveSpawner : MonoBehaviour
     public float fastSpeed = 2f;
     // Wahrscheinlichkeit, dass ein Zombie schneller ist (z.B. 20%)
     public float fastZombieProbability = 0.2f;
+
+    public GameObject[] powerUpPrefabs;
+
+    public int maxAmountPowerUps = 2;
+    public int powerUpsSpawned = 0;
     
     public static WaveSpawner GetInstance() {
         return instance;
@@ -101,9 +106,14 @@ public class WaveSpawner : MonoBehaviour
         }
     }
     
-    public void OnEnemyDeath()
+    public void OnEnemyDeath(Vector3 deathPosition)
     {
         enemiesAlive--;
+
+        if (Random.Range(1, 101) <= 4 && powerUpsSpawned <= maxAmountPowerUps)
+        {
+            SpawnPowerUp(deathPosition);
+        }
     }
 
     Vector3 RandomPointAroundPlayer(float radius) {
@@ -114,7 +124,7 @@ public class WaveSpawner : MonoBehaviour
         const float minDistanceToPlayer = 5f; // Mindestabstand vom Spieler, um zu verhindern, dass Gegner zu nahe spawnen
 
         do {
-            
+
             Vector3 randomDirection = Random.insideUnitSphere * radius;
             randomDirection += player.transform.position;
             NavMeshHit hit;
@@ -129,5 +139,18 @@ public class WaveSpawner : MonoBehaviour
         } while (attempts < maxAttempts && spawnPoint == Vector3.zero);
 
         return spawnPoint; // Gibt den gefundenen Punkt zurück oder Vector3.zero, falls kein gültiger Punkt gefunden wurde
+    }
+
+    void SpawnPowerUp(Vector3 spawnPosition)
+    {
+    if (powerUpPrefabs.Length == 0) return;
+        int randomIndex = Random.Range(0, powerUpPrefabs.Length);
+        GameObject powerUpPrefab = powerUpPrefabs[randomIndex];
+        Instantiate(powerUpPrefab, spawnPosition, Quaternion.identity);
+        powerUpsSpawned++;
+    }
+
+    public void OnPowerUp() {
+        powerUpsSpawned--;
     }
 }

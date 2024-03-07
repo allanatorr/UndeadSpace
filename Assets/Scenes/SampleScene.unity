@@ -160,6 +160,11 @@ MonoBehaviour:
   standardSpeed: 0.8
   fastSpeed: 1.6
   fastZombieProbability: 0.2
+  powerUpPrefabs:
+  - {fileID: 8422282057559601261, guid: 90954416b79b8ea4fac594a99ff30339, type: 3}
+  - {fileID: 8710780142729835863, guid: 9abe01ab22b1aea4faf2b337ef3b85d9, type: 3}
+  maxAmountPowerUps: 2
+  powerUpsSpawned: 0
 --- !u!4 &133398834
 Transform:
   m_ObjectHideFlags: 0
@@ -1007,7 +1012,7 @@ GameObject:
   - component: {fileID: 1057364901}
   m_Layer: 0
   m_Name: PlayerHealth
-  m_TagString: Untagged
+  m_TagString: PlayerHealth
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1040,7 +1045,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  maxHealth: 100
   healthbar: {fileID: 1867664871}
 --- !u!1 &1303468315
 GameObject:
@@ -1550,7 +1554,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1103cc560fffee42952ae57c0aea175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultSpeed: 700
   gun: {fileID: 757462894}
+  health: {fileID: 1057364899}
   bulletSpeed: 20
   shootingCooldown: 0.5
 --- !u!54 &1899704019

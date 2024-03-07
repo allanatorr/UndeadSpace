@@ -7,20 +7,8 @@ public class PlayerHealth : MonoBehaviour
 {
 
     public float health = 100f;
-    public float maxHealth = 100f;
+    private float maxHealth = 100f;
     public GameObject healthbar;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void ApplyDamage(float damage)
     {
@@ -36,5 +24,17 @@ public class PlayerHealth : MonoBehaviour
             // Implementiere die Logik für den Tod des Spielers
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+    }
+
+    public void ApplyHealthBuff(float boost) {
+
+        if(health + boost <= maxHealth) {
+            health += boost;
+        }
+        else {
+            health = maxHealth;
+        }
+
+        healthbar.GetComponent<Healthbar>().UpdateHealth(health / maxHealth);
     }
 }

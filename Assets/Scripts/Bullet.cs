@@ -30,7 +30,7 @@ public class Bullet : MonoBehaviour
         if(other.gameObject.tag == "Enemy") {
             Debug.Log("Zerstört");
             Destroy(other.gameObject);
-            WaveSpawner.GetInstance().OnEnemyDeath();
+            WaveSpawner.GetInstance().OnEnemyDeath(other.gameObject.GetComponent<Transform>().position);
         }
     }
 }
