@@ -8,7 +8,7 @@ public class WaveSpawner : MonoBehaviour
     public GameObject enemyPrefab;
     public GameObject player;
     
-    private int currentWave = 0;
+    private int currentWave = 20;
     private int enemiesAlive = 0;
     private bool waitingForNextWave = false;
     
@@ -96,7 +96,7 @@ public class WaveSpawner : MonoBehaviour
     Vector3 spawnPoint = Vector3.zero;
     int attempts = 0;
     const int maxAttempts = 10; // Maximale Anzahl von Versuchen, um einen gültigen Spawn-Punkt zu finden
-    const float minDistanceToPlayer = 3f; // Mindestabstand vom Spieler, um zu verhindern, dass Gegner zu nahe spawnen
+    const float minDistanceToPlayer = 5f; // Mindestabstand vom Spieler, um zu verhindern, dass Gegner zu nahe spawnen
 
     do {
         Vector3 randomDirection = Random.insideUnitSphere * radius;
