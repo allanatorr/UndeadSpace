@@ -16,9 +16,13 @@ public class WaveSpawner : MonoBehaviour
     
     static WaveSpawner instance;
     
-    // Neue Variablen für die Schübe
     public int enemiesPerBurst = 8; // Anzahl der Feinde pro Schub
     public float timeBetweenBursts = 4f; // Zeit in Sekunden zwischen den Schüben
+
+    public float standardSpeed = 0.8f;
+    public float fastSpeed = 2f;
+    // Wahrscheinlichkeit, dass ein Zombie schneller ist (z.B. 20%)
+    public float fastZombieProbability = 0.2f;
     
     public static WaveSpawner GetInstance() {
         return instance;
@@ -55,7 +59,9 @@ public class WaveSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         currentWave++;
+
         GameManager.GetInstance().UpdateCurrentWaveLabel(currentWave);
+
         waitingForNextWave = false;
         int totalEnemiesToSpawn = currentWave * 10;
         int bursts = Mathf.CeilToInt((float)totalEnemiesToSpawn / enemiesPerBurst);
@@ -82,7 +88,15 @@ public class WaveSpawner : MonoBehaviour
         Vector3 spawnPoint = RandomPointAroundPlayer(spawnRadius);
         if (spawnPoint != Vector3.zero)
         {
-            Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);
+            GameObject obj = Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);
+
+            var agent = obj.GetComponent<NavMeshAgent>();
+            if (agent != null)
+            {
+                float selectedSpeed = (Random.value < fastZombieProbability) ? fastSpeed : standardSpeed;
+                agent.speed = selectedSpeed;
+            }
+
             enemiesAlive++;
         }
     }
@@ -93,25 +107,27 @@ public class WaveSpawner : MonoBehaviour
     }
 
     Vector3 RandomPointAroundPlayer(float radius) {
-    Vector3 spawnPoint = Vector3.zero;
-    int attempts = 0;
-    const int maxAttempts = 10; // Maximale Anzahl von Versuchen, um einen gültigen Spawn-Punkt zu finden
-    const float minDistanceToPlayer = 5f; // Mindestabstand vom Spieler, um zu verhindern, dass Gegner zu nahe spawnen
 
-    do {
-        Vector3 randomDirection = Random.insideUnitSphere * radius;
-        randomDirection += player.transform.position;
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomDirection, out hit, radius, NavMesh.AllAreas)) {
-            float distance = Vector3.Distance(hit.position, player.transform.position);
-            if (distance >= minDistanceToPlayer) {
-                spawnPoint = hit.position;
-                break; // Ein gültiger Spawn-Punkt wurde gefunden
+        Vector3 spawnPoint = Vector3.zero;
+        int attempts = 0;
+        const int maxAttempts = 10; // Maximale Anzahl von Versuchen, um einen gültigen Spawn-Punkt zu finden
+        const float minDistanceToPlayer = 5f; // Mindestabstand vom Spieler, um zu verhindern, dass Gegner zu nahe spawnen
+
+        do {
+            
+            Vector3 randomDirection = Random.insideUnitSphere * radius;
+            randomDirection += player.transform.position;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomDirection, out hit, radius, NavMesh.AllAreas)) {
+                float distance = Vector3.Distance(hit.position, player.transform.position);
+                if (distance >= minDistanceToPlayer) {
+                    spawnPoint = hit.position;
+                    break; // Ein gültiger Spawn-Punkt wurde gefunden
+                }
             }
-        }
-        attempts++;
-    } while (attempts < maxAttempts && spawnPoint == Vector3.zero);
+            attempts++;
+        } while (attempts < maxAttempts && spawnPoint == Vector3.zero);
 
-    return spawnPoint; // Gibt den gefundenen Punkt zurück oder Vector3.zero, falls kein gültiger Punkt gefunden wurde
-}
+        return spawnPoint; // Gibt den gefundenen Punkt zurück oder Vector3.zero, falls kein gültiger Punkt gefunden wurde
+    }
 }

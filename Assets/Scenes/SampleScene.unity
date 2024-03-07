@@ -157,6 +157,9 @@ MonoBehaviour:
   spawnRadius: 10
   enemiesPerBurst: 5
   timeBetweenBursts: 2
+  standardSpeed: 0.8
+  fastSpeed: 1.6
+  fastZombieProbability: 0.2
 --- !u!4 &133398834
 Transform:
   m_ObjectHideFlags: 0
