@@ -6,7 +6,7 @@ public class PlayerCollider : MonoBehaviour
 {
     // Start is called before the first frame update
     public float damagePerSecond = 10f; // Schaden pro Sekunde
-    private float damageCooldown = 1f; // Cooldown in Sekunden
+    private float damageCooldown = 0.5f; // Cooldown in Sekunden
     private float lastDamageTime = -1f; // Zeitpunkt des letzten Schadens
 
     public GameObject playerHealth;

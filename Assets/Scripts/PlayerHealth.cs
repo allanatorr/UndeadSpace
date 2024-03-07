@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class PlayerHealth : MonoBehaviour
             Debug.Log("Spieler ist gestorben!");
 
             // Implementiere die Logik für den Tod des Spielers
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }
