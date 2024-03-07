@@ -4,9 +4,15 @@ using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
 
-public class PlayerAnimationController : MonoBehaviour
+public class PlayerAnimationController : MonoBehaviour, PlayerStateListener
 {
     [SerializeField] private Animator animator;
+
+    private void Awake() 
+    {
+        PlayerStateController playerStateController = GetComponent<PlayerStateController>();
+        playerStateController.AddListener(this);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +23,7 @@ public class PlayerAnimationController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        /*
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
@@ -66,6 +73,7 @@ public class PlayerAnimationController : MonoBehaviour
             setAllFalse();
             animator.SetBool("isRunningRight", true);
         }
+        */
     }
 
     private bool Between(float value, float lower, float upper)
@@ -73,12 +81,39 @@ public class PlayerAnimationController : MonoBehaviour
         return value < upper && value > lower;
     }
 
-    private void setAllFalse()
+    private void SetAllFalse()
     {
         animator.SetBool("isIdle", false);
         animator.SetBool("isRunningForward", false);
         animator.SetBool("isRunningLeft", false);
         animator.SetBool("isRunningBackwards", false);
         animator.SetBool("isRunningRight", false);
+    }
+
+    public void onPlayerStateChange(PlayerState newState)
+    {
+        SetAllFalse();
+        switch(newState)
+        {
+            case PlayerState.IS_IDLE:
+                animator.SetBool("isIdle", true);
+                break;
+            case PlayerState.IS_RUNNING_FORWARD:
+                animator.SetBool("isRunningForward", true);
+                break;
+            case PlayerState.IS_RUNNING_LEFT:
+                animator.SetBool("isRunningLeft", true);
+                break;
+            case PlayerState.IS_RUNNING_BACKWARDS:
+                animator.SetBool("isRunningBackwards", true);
+                break;
+            case PlayerState.IS_RUNNING_RIGHT:
+                animator.SetBool("isRunningRight", true);
+                break;
+            case PlayerState.IS_SPRINTING:
+                break;
+            case PlayerState.IS_ROLLING:
+                break;
+        }
     }
 }
