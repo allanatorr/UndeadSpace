@@ -10,14 +10,19 @@ public class PowerUp : MonoBehaviour
 
     void Start()
     {
-        Destroy(gameObject, lifetime); // Zerstört das Power-Up nach 15 Sekunden
+        Destroy(gameObject, lifetime);
     }
+
+    void OnDestroy() {
+        WaveSpawner.GetInstance().OnPowerUp();
+    }
+
     private void OnTriggerEnter(Collider collider) {
 
         if(collider.gameObject.tag == "Player") {
+            
             powerupEffect.Apply(collider.gameObject);
             Destroy(gameObject);
-            WaveSpawner.GetInstance().OnPowerUp();
         }
     }
 }

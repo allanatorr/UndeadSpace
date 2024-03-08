@@ -53,7 +53,6 @@ public class Player : MonoBehaviour
     void HandleShootInput() {
 
        Gun.Instance.Shoot();
-       
     }
 
     void HandleMovementInput() {

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba0a1f7147fc5834da184509bc9b7c2c, type: 3}
   m_Name: DefaultSpeedBuff
   m_EditorClassIdentifier: 
-  amount: 300
+  amount: 100
   time: 10
