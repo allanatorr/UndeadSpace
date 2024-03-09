@@ -12,7 +12,6 @@ public class Player : MonoBehaviour
     public int defaultSpeed = 700;
 
     public GameObject gun;
-    public GameObject health;
     public float bulletSpeed = 20f;
 
     public float shootingCooldown = 0.5f; // Cooldown-Zeit in Sekunden zwischen den Schüssen
@@ -24,7 +23,6 @@ public class Player : MonoBehaviour
     private float boostTimer = 0f;
 
     void Awake() {
-        health = GameObject.FindWithTag("PlayerHealth");
     }
     
     // Start is called before the first frame update
@@ -52,8 +50,7 @@ public class Player : MonoBehaviour
 
     void HandleShootInput() {
 
-        // nach merge war die Klasse Gun nicht mehr vorhanden
-       // Gun.Instance.Shoot();
+       Gun.Instance.Shoot();
     }
 
     void HandleMovementInput() {
@@ -85,7 +82,7 @@ public class Player : MonoBehaviour
 
     public void ApplyHealthBuff(float amount)
     {
-        health.GetComponent<PlayerHealth>().ApplyHealthBuff(amount);
+        gameObject.GetComponent<PlayerHealth>().ApplyHealthBuff(amount);
     }
 
     public void ApplySpeedBuff(int amount, float time)
