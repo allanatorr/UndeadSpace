@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scenes/SampleScene/NavMesh-NavMesh Surface.asset.meta
+guid: 112fcf90e4aef854c8168e0dfb6cf8a0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+=======
+guid: 59e0064b6dd599a46809960163588fb1
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+>>>>>>> felix:Assets/Materials/Bullet Hole.mat.meta
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

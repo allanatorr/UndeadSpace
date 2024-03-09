@@ -52,7 +52,8 @@ public class Player : MonoBehaviour
 
     void HandleShootInput() {
 
-       Gun.Instance.Shoot();
+        // nach merge war die Klasse Gun nicht mehr vorhanden
+       // Gun.Instance.Shoot();
     }
 
     void HandleMovementInput() {
