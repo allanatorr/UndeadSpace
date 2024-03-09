@@ -4,24 +4,36 @@ using UnityEngine;
 
 public class PlayerStateController : MonoBehaviour
 {
-    PlayerState currentState;
+    [SerializeField] PlayerState currentState;
     List<PlayerStateListener> listeners = new List<PlayerStateListener>();
+    Vector3 lookDirection;
 
-    // Start is called before the first frame update
-    void Start()
+    public Vector3 GetLookDirection()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return lookDirection;
     }
 
     public PlayerState GetCurrentState()
     {
         return currentState;
+    }
+
+    public void SetSprintState()
+    {
+        ShowWeapon(false);
+        ChangeState(PlayerState.IS_SPRINTING);
+    }
+
+    public void SetIdleState()
+    {
+        ShowWeapon(true);
+        ChangeState(PlayerState.IS_IDLE);
+    }
+
+    public void SetRunningState()
+    {
+        ShowWeapon(true);
+        ChangeState(PlayerState.IS_RUNNING);
     }
 
     public void ChangeState(PlayerState newState)
@@ -35,6 +47,14 @@ public class PlayerStateController : MonoBehaviour
         foreach (PlayerStateListener listener in listeners)
         {
             listener.onPlayerStateChange(newState);
+        }
+    }
+
+    private void ShowWeapon(bool isEnabled)
+    {
+        foreach (PlayerStateListener listener in listeners)
+        {
+            listener.OnWeaponStatusChange(isEnabled);
         }
     }
 

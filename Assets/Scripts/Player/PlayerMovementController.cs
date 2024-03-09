@@ -1,151 +1,76 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovementController : MonoBehaviour
+public class PlayerMovementController : MonoBehaviour, PlayerStateListener
 {
-    
-    [Range(0f, 10f)]
-    [SerializeField] private float speed;
-    [SerializeField] private Transform avatar;
-    private CharacterController characterController;
-    private PlayerStateController playerStateController;
+    [SerializeField] private float runningSpeed;
+    [SerializeField] private float sprintSpeed;
+    [SerializeField] private float currentSpeed;
+    private float horizontal;
+    private float vertical;
 
-    // Start is called before the first frame update
+    [SerializeField] private bool lookAtMouse;
+
+    CharacterController characterController;
+
+    private void Awake() 
+    {
+        GetComponent<PlayerStateController>().AddListener(this);
+    }
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        playerStateController = GetComponent<PlayerStateController>();
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        Vector3 mousePosition = Input.mousePosition;
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, Camera.main.transform.position.y - transform.position.y));
-        Vector3 lookDirection = mouseWorldPosition - transform.position;
-
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-
-
-        if (Between(h, -0.5f, 0.5f) && Between(v, -0.5f, 0.5f)) 
-        {
-            HandleRotation(lookDirection);
-            SetIdle();
-            return;
-        }
-
-        Vector3 moveDirection = new Vector3(h, 0.0f, v);
-        characterController.Move(moveDirection * Time.deltaTime * speed);
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            HandleRotation(lookDirection);
-            SetSprint();
-            return;
-        }
-
-        float normalizedAngle = calcNormalizedAngle(moveDirection, lookDirection);
-
-        if (normalizedAngle < 0.25) {
-            SetRunForward();
-        } else if (normalizedAngle < 0.5) {
-            SetRunLeft();
-        } else if (normalizedAngle < 0.75) {
-            SetRunBackwards();
-        } else {
-            SetRunRight();
-        }
-
-        HandleRotation(lookDirection);
+        if (lookAtMouse) HandleLookAtMouse();
+        else HandleLookAtMoveDirection();
     }
 
-    private void HandleRotation(Vector3 lookDirection)
+    public void Move(float horizontal, float vertical)
     {
-        PlayerState currentState = playerStateController.GetCurrentState();
-        float rotationOffset = currentState switch
+        this.horizontal = horizontal;
+        this.vertical = vertical;
+        Vector3 moveDirection = new Vector3(horizontal, 0.0f, vertical);
+        characterController.Move(moveDirection * Time.deltaTime * currentSpeed);
+    }
+
+    public void onPlayerStateChange(PlayerState newState)
+    {
+        currentSpeed = newState switch
         {
-            PlayerState.IS_RUNNING_FORWARD => 45f,
-            PlayerState.IS_RUNNING_BACKWARDS => 45f,
-            PlayerState.IS_RUNNING_LEFT => 45f,
-            PlayerState.IS_RUNNING_RIGHT => -45f,
-            _ => 0f,
+            PlayerState.IS_RUNNING => runningSpeed,
+            PlayerState.IS_SPRINTING => sprintSpeed,
+            _ => 0
         };
 
-        Quaternion offsetRotation = Quaternion.AngleAxis(rotationOffset, Vector3.up);
-        lookDirection = offsetRotation * lookDirection;
-        lookDirection.y = 0f;
-        avatar.rotation = Quaternion.LookRotation(lookDirection);
-    }
-
-    private float getRotationOffset(PlayerState currentState)
-    {
-        return currentState switch
+        lookAtMouse = newState switch
         {
-            PlayerState.IS_RUNNING_LEFT => 45,
-            PlayerState.IS_RUNNING_RIGHT => -45,
-            _ => 0,
+            PlayerState.IS_SPRINTING => false,
+            _ => true
         };
     }
 
-    private bool Between(float value, float lower, float upper)
+    private void HandleLookAtMouse()
     {
-        return value < upper && value > lower;
-    }
+        RaycastHit _hit;
+        Ray _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-    private float calcNormalizedAngle(Vector3 movementDirection, Vector3 lookDirection)
-    {
-        float angle = Vector3.Angle(movementDirection, lookDirection);
-
-        if (Vector3.Dot(Vector3.Cross(movementDirection, lookDirection), Vector3.up) < 0)
+        if (Physics.Raycast(_ray, out _hit))    
         {
-            angle = 360 - angle;
+            Vector3 hitPointHorizontal = new Vector3(_hit.point.x, transform.position.y, _hit.point.z);
+            transform.LookAt(hitPointHorizontal);
         }
-
-        angle = (angle + 45) % 360;
-        return angle / 360;
     }
 
-    private void SetIdle()
+    private void HandleLookAtMoveDirection()
     {
-        Debug.Log("Idle");
-        playerStateController.ChangeState(PlayerState.IS_IDLE);
-    }
-
-    private void SetRunForward()
-    {
-        Debug.Log("Run Forward");
-        playerStateController.ChangeState(PlayerState.IS_RUNNING_FORWARD);
-    }
-
-    private void SetRunLeft()
-    {
-        Debug.Log("Run Left");
-        playerStateController.ChangeState(PlayerState.IS_RUNNING_LEFT);
-    }
-
-    private void SetRunBackwards()
-    {
-        Debug.Log("Run Backwards");
-        playerStateController.ChangeState(PlayerState.IS_RUNNING_BACKWARDS);
-    }
-
-    private void SetRunRight()
-    {
-        Debug.Log("Run Right");
-        playerStateController.ChangeState(PlayerState.IS_RUNNING_RIGHT);
-    }
-
-    private void SetSprint()
-    {
-        Debug.Log("Sprint");
-        playerStateController.ChangeState(PlayerState.IS_SPRINTING);
-    }
-
-    private void SetRoll()
-    {
-        Debug.Log("Roll");
-        playerStateController.ChangeState(PlayerState.IS_ROLLING);
+        Vector3 moveDirection = new Vector3(horizontal, 0, vertical).normalized;
+        Vector3 lookDirection = moveDirection + transform.position;
+        transform.LookAt(lookDirection);
     }
 }
