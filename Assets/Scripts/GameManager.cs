@@ -40,12 +40,16 @@ public class GameManager : MonoBehaviour
     }
 
     public void UpdateCurrentWaveLabel(int waveNum) {
+
+        if(waveNum == 1) {
+           currentWaveLabel.gameObject.SetActive(true);
+           currentWaveLabel.GetComponent<TextFadeIn>().FadeInText("Welle " + waveNum.ToString());
+        }
+
         currentWaveLabel.text = "Welle " + waveNum.ToString();
     }
 
     public void DisplayNextWaveWarning() {
-        
-        this.nextWaveWarningText.text = "Nächste Welle kommt!";
+        nextWaveWarningText.GetComponent<TextFadeInOut>().DisplayText("Nächste Welle kommt");
     }
-
 }

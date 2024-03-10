@@ -51,7 +51,7 @@ public class WaveSpawner : MonoBehaviour
         if (enemiesAlive <= 0 && !waitingForNextWave)
         {
             StartNextWave();
-            // StartCoroutine(DisplayNextRoundWarning());
+            StartCoroutine(DisplayNextRoundWarning());
         }
     }
 
