@@ -6,11 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="bfe6b47b-a1da-42fa-a24d-4ae9d7ded37f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/../Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Scenes/SampleScene/NavMesh-NavMesh Surface.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../Scenes/SampleScene/NavMesh-NavMesh Surface.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Scripts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Scripts.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CameraController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../../ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ProjectSettings/NavMeshAreas.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../../ProjectSettings/NavMeshAreas.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Health/PlayerHealth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Health/PlayerHealth.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TextureModels2/UI Assets/kenney_ui-pack-space-expansion/PNG/metalPanel_red.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/../TextureModels2/UI Assets/kenney_ui-pack-space-expansion/PNG/metalPanel_red.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TextureModels2/UI Assets/kenney_ui-pack-space-expansion/PNG/metalPanel_yellow.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/../TextureModels2/UI Assets/kenney_ui-pack-space-expansion/PNG/metalPanel_yellow.png.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +21,11 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/CameraController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/GameManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Health/PlayerHealth.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MainMenu.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PauseMenu.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SkinSelectCamera.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
@@ -36,7 +39,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Mert",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -63,6 +66,7 @@
       <workItem from="1709748174155" duration="17000" />
       <workItem from="1709910685420" duration="2000" />
       <workItem from="1709910712410" duration="1468000" />
+      <workItem from="1710097407388" duration="157000" />
     </task>
     <servers />
   </component>

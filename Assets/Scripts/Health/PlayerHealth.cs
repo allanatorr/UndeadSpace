@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerHealth : Health
-{
+public class PlayerHealth : Health {
+
+    public static bool GameIsPaused = false;
+    public GameObject GameOverMenuUI;
+
+    public GameObject GameWaveUI;
+    
+
+
     public void ApplyDamage(float damage)
     {
         SubtractLife(damage);
@@ -13,10 +20,14 @@ public class PlayerHealth : Health
 
         if (health <= 0)
         {
-            Debug.Log("Spieler ist gestorben!");
-
-            // Implementiere die Logik für den Tod des Spielers
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Debug.Log("Spieler ist gestorben!"); 
+            GameOverMenuUI.SetActive(true);
+            GameWaveUI.SetActive(false);
+            Time.timeScale = 0f;
+            GameIsPaused = true;
+            
+           
+			//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
@@ -31,4 +42,20 @@ public class PlayerHealth : Health
 
         healthbar.GetComponent<Healthbar>().UpdateHealth(health / maxHealth);
     }
+
+	public void QuitGame()
+	{
+		Application.Quit();
+	}
+	
+	public void OpenMainMenu()
+	{
+		Time.timeScale = 1f;
+		SceneManager.LoadSceneAsync(0);
+	}
+	
+	public void RestartGame(){ 
+		Time.timeScale = 1f;
+	SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+	}
 }
