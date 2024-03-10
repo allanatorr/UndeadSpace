@@ -28,7 +28,6 @@ public class Bullet : MonoBehaviour
 
             Debug.Log("Zerstört");
             other.gameObject.GetComponent<EnemyHealth>().ApplyDamage(50);
-            WaveSpawner.GetInstance().OnEnemyDeath(other.gameObject.GetComponent<Transform>().position);
         }
     }
 }

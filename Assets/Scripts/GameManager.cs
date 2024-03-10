@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro; // Importieren des TextMeshPro-Namespace
 
 public class GameManager : MonoBehaviour
 {
 
-    public Text currentWaveLabel;
+    public TextMeshProUGUI currentWaveLabel;
+
+    public TextMeshProUGUI nextWaveWarningText;
 
     static GameManager instance;
 
@@ -39,4 +42,10 @@ public class GameManager : MonoBehaviour
     public void UpdateCurrentWaveLabel(int waveNum) {
         currentWaveLabel.text = "Welle " + waveNum.ToString();
     }
+
+    public void DisplayNextWaveWarning() {
+        
+        this.nextWaveWarningText.text = "Nächste Welle kommt!";
+    }
+
 }

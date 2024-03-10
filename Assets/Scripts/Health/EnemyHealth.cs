@@ -13,6 +13,7 @@ public class EnemyHealth : Health
         if (health <= 0)
         {
             Debug.Log("Gegner ist gestorben!");
+            WaveSpawner.GetInstance().OnEnemyDeath(gameObject.GetComponent<Transform>().position);
             Destroy(gameObject);
             // Implementiere die Logik für den Tod des Spielers
         }

@@ -8,8 +8,8 @@ public class WaveSpawner : MonoBehaviour
     public GameObject enemyPrefab;
     public GameObject player;
     
-    private int currentWave = 30;
-    private int enemiesAlive = 0;
+    private int currentWave = 0;
+    public int enemiesAlive = 0;
     private bool waitingForNextWave = false;
     
     public float spawnRadius = 10f;
@@ -51,7 +51,16 @@ public class WaveSpawner : MonoBehaviour
         if (enemiesAlive <= 0 && !waitingForNextWave)
         {
             StartNextWave();
+            // StartCoroutine(DisplayNextRoundWarning());
         }
+    }
+
+    IEnumerator DisplayNextRoundWarning()
+    {
+        // Warte 3 Sekunden
+        yield return new WaitForSeconds(3);
+
+        GameManager.GetInstance().DisplayNextWaveWarning();
     }
     
     void StartNextWave()
