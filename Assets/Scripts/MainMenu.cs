@@ -12,7 +12,7 @@ public class MainMenu : MonoBehaviour
 
     public void OpenSkinScene()
     {
-        
+        SceneManager.LoadSceneAsync(2);
     }
 
     public void QuitGame()
