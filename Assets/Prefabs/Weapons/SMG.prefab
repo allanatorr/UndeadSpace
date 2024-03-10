@@ -100,10 +100,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef0063baabaecdf47ad49ed6d47736fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  muzzle: {fileID: 0}
-  projectilePrefab: {fileID: 2946373576388238746, guid: 3b39072482659c640a354f651b70d28a, type: 3}
+  muzzle: {fileID: 2168579215827294071, guid: 0d671fd0ac55f054db8f3d9a8f81f15b, type: 3}
+  projectilePrefab: {fileID: 2946373576388238746, guid: a99310ab0b28dbf498133d68ce02fea8, type: 3}
+  damagePerShot: 20
   projectilesPerShot: 1
   shotSpeed: 30
+  range: 0
   horizontalSpread: 5
   verticalSpread: 5
   shootingCooldown: 0.05
