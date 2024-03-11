@@ -4,19 +4,15 @@ using UnityEngine;
 
 public class PlayerPowerUp : MonoBehaviour
 {
-
     private bool isSpeedBuffActive = false;
 
-    private float boostTimer = 0f;
-
     private PlayerMovementController playerMovementController;
+    private PlayerStateController playerStateController;
 
-    void Start() {
+    void Start() 
+    {
         playerMovementController = gameObject.GetComponent<PlayerMovementController>(); 
-    }
-
-    void Update() {
-        HandlePlayerSpeed();
+        playerStateController = gameObject.GetComponent<PlayerStateController>(); 
     }
 
     public void ApplyHealthBuff(float amount)
@@ -24,30 +20,39 @@ public class PlayerPowerUp : MonoBehaviour
         gameObject.GetComponent<PlayerHealth>().ApplyHealthBuff(amount);
     }
 
+    private Coroutine speedBuffCoroutine;
+
     public void ApplySpeedBuff(float amount, float time)
     {
-        isSpeedBuffActive = true;
-
-        if(boostTimer <= 0) {
-            Debug.Log("##################");
-            playerMovementController.RunningSpeed = playerMovementController.RunningSpeed + amount;
-            // speed += amount;
+        if (!isSpeedBuffActive)
+        {
+            isSpeedBuffActive = true;
+            speedBuffCoroutine = StartCoroutine(SpeedBuffCoroutine(amount, time));
         }
-        boostTimer = time;
     }
 
-    public void HandlePlayerSpeed() {
+    private IEnumerator SpeedBuffCoroutine(float amount, float time)
+    {
+        isSpeedBuffActive = true;
+        playerMovementController.SprintSpeed += amount;
+        playerMovementController.RunningSpeed += amount;
+        onSpeedChange(playerMovementController.SprintSpeed, playerMovementController.RunningSpeed);
 
-        if (isSpeedBuffActive)
+        yield return new WaitForSeconds(time);
+
+        playerMovementController.SprintSpeed -= amount;
+        playerMovementController.RunningSpeed -= amount;
+        onSpeedChange(playerMovementController.SprintSpeed, playerMovementController.RunningSpeed);
+        isSpeedBuffActive = false;
+    }
+
+    private void onSpeedChange(float sprintSpeed, float runningSpeed)
+    {
+        playerMovementController.CurrentSpeed = playerStateController.GetCurrentState() switch
         {
-            boostTimer -= Time.deltaTime;
-
-            if (boostTimer <= 0)
-            {
-                isSpeedBuffActive = false;
-                // speed = defaultSpeed;
-                boostTimer = 0;
-            }
-        }
+            PlayerState.IS_RUNNING => runningSpeed,
+            PlayerState.IS_SPRINTING => sprintSpeed,
+            _ => 0
+        };
     }
 }

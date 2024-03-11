@@ -8,6 +8,25 @@ public class PlayerMovementController : MonoBehaviour, PlayerStateListener
     [SerializeField] private float runningSpeed;
     [SerializeField] private float sprintSpeed;
     [SerializeField] private float currentSpeed;
+
+    public float RunningSpeed
+    {
+        get { return runningSpeed; }
+        set { runningSpeed = value; }
+    }
+
+    public float SprintSpeed
+    {
+        get { return sprintSpeed; }
+        set { sprintSpeed = value; }
+    }
+
+    public float CurrentSpeed
+    {
+        get { return currentSpeed; }
+        set { currentSpeed = value; }
+    }
+
     private float horizontal;
     private float vertical;
 
@@ -78,11 +97,4 @@ public class PlayerMovementController : MonoBehaviour, PlayerStateListener
         Vector3 lookDirection = moveDirection + transform.position;
         transform.LookAt(lookDirection);
     }
-
-    public float RunningSpeed
-    {
-        get { return runningSpeed; }
-        set { runningSpeed = value; }
-    }
-
 }
