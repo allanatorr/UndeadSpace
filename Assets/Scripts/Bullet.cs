@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-
-
     public float speed = 20f;
 
     void Start()
@@ -27,9 +25,8 @@ public class Bullet : MonoBehaviour
         }
 
         if(other.gameObject.tag == "Enemy") {
-            Debug.Log("Zerstört");
-            Destroy(other.gameObject);
-            WaveSpawner.GetInstance().OnEnemyDeath(other.gameObject.GetComponent<Transform>().position);
+
+            other.gameObject.GetComponent<EnemyHealth>().ApplyDamage(50);
         }
     }
 }

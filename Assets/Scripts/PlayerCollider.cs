@@ -9,7 +9,12 @@ public class PlayerCollider : MonoBehaviour
     private float damageCooldown = 0.5f; // Cooldown in Sekunden
     private float lastDamageTime = -1f; // Zeitpunkt des letzten Schadens
 
-    public GameObject playerHealth;
+    private GameObject player;
+
+    void Awake() {
+        player = GameObject.FindWithTag("Player");
+    }
+
     void Start()
     {
         
@@ -27,7 +32,7 @@ public class PlayerCollider : MonoBehaviour
         {
             if (Time.time >= lastDamageTime + damageCooldown)
             {
-                playerHealth.GetComponent<PlayerHealth>().ApplyDamage(damagePerSecond);
+                player.GetComponent<PlayerHealth>().ApplyDamage(damagePerSecond);
                 lastDamageTime = Time.time;
             }
         }

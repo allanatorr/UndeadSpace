@@ -29,6 +29,7 @@ public class PlayerMovementController : MonoBehaviour, PlayerStateListener
     {
         if (lookAtMouse) HandleLookAtMouse();
         else HandleLookAtMoveDirection();
+
     }
 
     public void Move(float horizontal, float vertical)
@@ -37,6 +38,12 @@ public class PlayerMovementController : MonoBehaviour, PlayerStateListener
         this.vertical = vertical;
         Vector3 moveDirection = new Vector3(horizontal, 0.0f, vertical);
         characterController.Move(moveDirection * Time.deltaTime * currentSpeed);
+
+        Vector3 newPosition = transform.position;
+        newPosition.y = 0f;
+        transform.position = newPosition;
+
+
     }
 
     public void onPlayerStateChange(PlayerState newState)

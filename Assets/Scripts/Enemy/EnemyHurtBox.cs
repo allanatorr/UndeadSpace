@@ -6,8 +6,10 @@ public class EnemyHurtBox : MonoBehaviour
 {
     [SerializeField] EnemyController enemyController;
 
+    [SerializeField] EnemyHealth enemyHealth;
+
     public void DealDamage(float damage)
     {
-        enemyController.DealDamage(damage);
+        enemyHealth.ApplyDamage(damage);
     }
 }

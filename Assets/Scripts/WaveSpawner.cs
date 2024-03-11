@@ -8,8 +8,8 @@ public class WaveSpawner : MonoBehaviour
     public GameObject enemyPrefab;
     public GameObject player;
     
-    private int currentWave = 30;
-    private int enemiesAlive = 0;
+    private int currentWave = 0;
+    public int enemiesAlive = 0;
     private bool waitingForNextWave = false;
     
     public float spawnRadius = 10f;
@@ -48,10 +48,14 @@ public class WaveSpawner : MonoBehaviour
     
     void Update()
     {
-        if (enemiesAlive <= 0 && !waitingForNextWave)
-        {
-            StartNextWave();
-        }
+    }
+
+    IEnumerator DisplayNextRoundWarning()
+    {
+        // Warte 3 Sekunden
+        yield return new WaitForSeconds(3);
+
+        GameManager.GetInstance().DisplayNextWaveWarning();
     }
     
     void StartNextWave()
@@ -110,7 +114,9 @@ public class WaveSpawner : MonoBehaviour
     {
         enemiesAlive--;
 
-        if (Random.Range(1, 101) <= 4 && powerUpsSpawned <= maxAmountPowerUps)
+        CheckIfAllEnemiesDeath();
+
+        if (Random.Range(1, 101) <= 100 && powerUpsSpawned <= maxAmountPowerUps)
         {
             SpawnPowerUp(deathPosition);
         }
@@ -146,11 +152,21 @@ public class WaveSpawner : MonoBehaviour
     if (powerUpPrefabs.Length == 0) return;
         int randomIndex = Random.Range(0, powerUpPrefabs.Length);
         GameObject powerUpPrefab = powerUpPrefabs[randomIndex];
+                spawnPosition.y = 0.042f;
         Instantiate(powerUpPrefab, spawnPosition, Quaternion.identity);
         powerUpsSpawned++;
     }
 
     public void OnPowerUp() {
         powerUpsSpawned--;
+    }
+
+    private void CheckIfAllEnemiesDeath() {
+
+        if (enemiesAlive <= 0 && !waitingForNextWave)
+        {
+            StartNextWave();
+            StartCoroutine(DisplayNextRoundWarning());
+        }
     }
 }
