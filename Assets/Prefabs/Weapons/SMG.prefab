@@ -109,3 +109,5 @@ MonoBehaviour:
   horizontalSpread: 5
   verticalSpread: 5
   shootingCooldown: 0.05
+  startAmmoCount: 10
+  currentAmmo: 0

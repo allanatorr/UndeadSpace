@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class WeaponController : MonoBehaviour
 {
+    List<WeaponListener> listeners = new List<WeaponListener>();
+
     private Transform firingPoint;
     [SerializeField] GameObject muzzle;
     [SerializeField] GameObject projectilePrefab;
@@ -16,6 +19,16 @@ public class WeaponController : MonoBehaviour
 
     [SerializeField] public float shootingCooldown = 0.5f; // Cooldown-Zeit in Sekunden zwischen den Schüssen
     private float shootingTimer; // Timer, der verfolgt, wann zuletzt geschossen wurde
+
+
+    [SerializeField] public static float maxAmmoCount;
+    [SerializeField] private int startAmmoCount;
+    [SerializeField] private int currentAmmoCount;
+
+    private void Start() 
+    {
+        currentAmmoCount = startAmmoCount;
+    }
 
     private void FixedUpdate() 
     {
@@ -36,6 +49,8 @@ public class WeaponController : MonoBehaviour
         {
             ShootProjectile();
         }
+
+        DecreaseCurrentAmmo();
     }
 
     public void ShootProjectile()
@@ -45,6 +60,7 @@ public class WeaponController : MonoBehaviour
         projectileController.SetDirection(calcProjectileSpread());
         projectileController.SetSpeed(shotSpeed);
         projectileController.SetDamage(damagePerShot);
+
     }
 
     private Vector3 calcProjectileSpread()
@@ -53,5 +69,33 @@ public class WeaponController : MonoBehaviour
         float verticalOffset = Random.Range(-verticalSpread, verticalSpread);
         Vector3 direction = Quaternion.Euler(verticalOffset, horizontalOffset, verticalOffset) * firingPoint.forward;
         return direction;
+    }
+
+    private void DecreaseCurrentAmmo()
+    {
+        currentAmmoCount--;
+        if (currentAmmoCount <= 0)
+        {
+            removeWeapon();
+        }
+    }
+
+    private void removeWeapon()
+    {
+        foreach (WeaponListener listener in listeners)
+        {
+            listener.OnWeaponDeletion(this.gameObject);
+        }
+        Destroy(this.gameObject);
+    }
+
+    public int GetCurrentAmmo()
+    {
+        return currentAmmoCount;
+    }
+
+    public void AddListener(WeaponListener weaponListener)
+    {
+        listeners.Add(weaponListener);
     }
 }
