@@ -26,7 +26,6 @@ public class Bullet : MonoBehaviour
 
         if(other.gameObject.tag == "Enemy") {
 
-            Debug.Log("Zerstört");
             other.gameObject.GetComponent<EnemyHealth>().ApplyDamage(50);
         }
     }

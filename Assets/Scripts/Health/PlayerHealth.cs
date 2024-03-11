@@ -16,17 +16,13 @@ public class PlayerHealth : Health {
     {
         SubtractLife(damage);
 
-        Debug.Log("Spieler erhält Schaden! Verbleibende Gesundheit: " + health);
 
         if (health <= 0)
         {
-            Debug.Log("Spieler ist gestorben!"); 
             GameOverMenuUI.SetActive(true);
             GameWaveUI.SetActive(false);
-            Time.timeScale = 0f;
+            // Time.timeScale = 0f;
             GameIsPaused = true;
-            
-           
 			//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }

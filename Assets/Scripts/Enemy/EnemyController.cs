@@ -90,16 +90,22 @@ public class EnemyController : MonoBehaviour
         timer += Time.deltaTime;
     }
 
-    public void DealDamage(float damage)
-    {
-        if (isDead) return;
+    // public void DealDamage(float damage)
+    // {
+    //     if (isDead) return;
 
-        health -= damage;
-        if (health <= 0)
-        {
-            isDead = true;
-            animator.SetBool("isDead", true);
-            agent.enabled = false;
-        }
+    //     health -= damage;
+    //     if (health <= 0)
+    //     {
+    //         isDead = true;
+    //         animator.SetBool("isDead", true);
+    //         agent.enabled = false;
+    //     }
+    // }
+
+    public void Die() {
+        isDead = true;
+        animator.SetBool("isDead", true);
+        agent.enabled = false;
     }
 }
