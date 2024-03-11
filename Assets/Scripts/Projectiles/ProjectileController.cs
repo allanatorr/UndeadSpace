@@ -22,7 +22,7 @@ public class ProjectileController : MonoBehaviour
         transform.Translate(direction * speed * Time.deltaTime);
     }
 
-    private void SetDamage(float damage)
+    public void SetDamage(float damage)
     {
         this.damage = damage;
     }
@@ -54,6 +54,12 @@ public class ProjectileController : MonoBehaviour
             Instantiate(bulletHolePrefab, collisionPoint, Quaternion.identity);
 
             // Destroy the projectile
+            Destroy(gameObject);
+        }
+        else if (other.gameObject.CompareTag("Enemy Hurtbox"))
+        {
+            Debug.Log("Hit enemy");
+            other.gameObject.GetComponent<EnemyHurtBox>().DealDamage(damage);
             Destroy(gameObject);
         }
     }

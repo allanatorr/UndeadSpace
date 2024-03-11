@@ -7,6 +7,7 @@ public class WeaponController : MonoBehaviour
     private Transform firingPoint;
     [SerializeField] GameObject muzzle;
     [SerializeField] GameObject projectilePrefab;
+    [SerializeField] private int damagePerShot;
     [SerializeField] private int projectilesPerShot;
     [SerializeField] private int shotSpeed;
     [SerializeField] private float range;
@@ -43,6 +44,7 @@ public class WeaponController : MonoBehaviour
         ProjectileController projectileController = projectile.GetComponent<ProjectileController>();
         projectileController.SetDirection(calcProjectileSpread());
         projectileController.SetSpeed(shotSpeed);
+        projectileController.SetDamage(damagePerShot);
     }
 
     private Vector3 calcProjectileSpread()
