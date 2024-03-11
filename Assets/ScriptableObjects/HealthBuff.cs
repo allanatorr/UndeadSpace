@@ -9,5 +9,6 @@ public class HealthBuff : PowerupEffect
     public override void Apply(GameObject target)
     {
         target.GetComponent<PlayerPowerUp>().ApplyHealthBuff(amount);
+        GameManager.GetInstance().incrementHighscore(300);
     }
 }

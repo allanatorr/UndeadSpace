@@ -13,6 +13,7 @@ public class EnemyHealth : Health
         {
             WaveSpawner.GetInstance().OnEnemyDeath(gameObject.GetComponent<Transform>().position);
             gameObject.GetComponent<EnemyController>().Die();
+            GameManager.GetInstance().incrementHighscore(100);
             Destroy(gameObject);
             // Implementiere die Logik für den Tod des Spielers
         }

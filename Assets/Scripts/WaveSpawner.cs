@@ -28,6 +28,8 @@ public class WaveSpawner : MonoBehaviour
 
     public int maxAmountPowerUps = 2;
     public int powerUpsSpawned = 0;
+
+    private int maxEnemiesAlive = 100;
     
     public static WaveSpawner GetInstance() {
         return instance;
@@ -83,12 +85,30 @@ public class WaveSpawner : MonoBehaviour
         }
     }
     
+    // IEnumerator SpawnBurst(int enemies)
+    // {
+    //     for (int i = 0; i < enemies; i++)
+    //     {
+    //         SpawnEnemy();
+    //         yield return null; // Optional: Wartezeit zwischen dem Spawnen einzelner Feinde in einem Schub
+    //     }
+    // }
+
     IEnumerator SpawnBurst(int enemies)
     {
         for (int i = 0; i < enemies; i++)
         {
-            SpawnEnemy();
-            yield return null; // Optional: Wartezeit zwischen dem Spawnen einzelner Feinde in einem Schub
+            if (enemiesAlive < maxEnemiesAlive)
+            {
+                SpawnEnemy();
+                yield return null; // Optional: Wartezeit zwischen dem Spawnen einzelner Feinde in einem Schub
+            }
+            else
+            {
+                // Warte, bis ein Zombie stirbt, bevor ein neuer gespawnt wird
+                yield return new WaitWhile(() => enemiesAlive >= maxEnemiesAlive);
+                i--; // Stellt sicher, dass wir die Schleife nicht fortsetzen, ohne einen Zombie zu spawnen
+            }
         }
     }
     
@@ -116,7 +136,7 @@ public class WaveSpawner : MonoBehaviour
 
         CheckIfAllEnemiesDeath();
 
-        if (Random.Range(1, 101) <= 100 && powerUpsSpawned <= maxAmountPowerUps)
+        if (Random.Range(1, 101) <= 90 && powerUpsSpawned <= maxAmountPowerUps)
         {
             SpawnPowerUp(deathPosition);
         }

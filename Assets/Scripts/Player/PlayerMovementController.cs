@@ -42,8 +42,6 @@ public class PlayerMovementController : MonoBehaviour, PlayerStateListener
         Vector3 newPosition = transform.position;
         newPosition.y = 0f;
         transform.position = newPosition;
-
-
     }
 
     public void onPlayerStateChange(PlayerState newState)
@@ -80,4 +78,11 @@ public class PlayerMovementController : MonoBehaviour, PlayerStateListener
         Vector3 lookDirection = moveDirection + transform.position;
         transform.LookAt(lookDirection);
     }
+
+    public float RunningSpeed
+    {
+        get { return runningSpeed; }
+        set { runningSpeed = value; }
+    }
+
 }

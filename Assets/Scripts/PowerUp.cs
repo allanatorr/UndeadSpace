@@ -21,23 +21,11 @@ public class PowerUp : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider collider) {
-            Debug.Log("Drinnen");
-            Debug.Log(collider.gameObject.name);
+        Debug.Log("Drinnen");
 
         if(collider.gameObject.tag == "Player") {
             powerupEffect.Apply(collider.gameObject);
             Destroy(gameObject);
         }
     }
-
-    // public void OnCollisionEnter(Collision collider) {
-    //  Debug.Log("Drinnen");
-    // Debug.Log(collider.gameObject.name);
-
-    //     if(collider.gameObject.tag == "PlayerHurtbox") {
-    //         Debug.Log("#####################");
-    //         powerupEffect.Apply(player.gameObject);
-    //         Destroy(gameObject);
-    //     }
-    // }
 }
