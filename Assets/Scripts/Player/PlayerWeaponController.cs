@@ -81,4 +81,14 @@ public class PlayerWeaponController : MonoBehaviour, PlayerStateListener
         weaponIsEnabled = isEnabled;
         weaponHolderObject.SetActive(isEnabled);
     }
+
+    public void ApplyDamageBuff(float amount, float time) {
+
+        // foreach (var weapon in startWeaponPrefabs)
+        // {
+        //     weapon.GetComponent<WeaponController>().IncreaseDamage(amount, time);
+        // }
+
+        currentWeapon.GetComponent<WeaponController>().IncreaseDamage(amount, time);
+    }
 }

@@ -58,8 +58,8 @@ public class GameManager : MonoBehaviour
     }
 
     public void incrementHighscore(int points) {
+
         currentHighScore += points;
         highScoreLabel.text = currentHighScore.ToString("D6");
     }
-
 }

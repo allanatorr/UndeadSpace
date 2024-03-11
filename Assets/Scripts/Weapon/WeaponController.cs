@@ -16,6 +16,7 @@ public class WeaponController : MonoBehaviour
 
     [SerializeField] public float shootingCooldown = 0.5f; // Cooldown-Zeit in Sekunden zwischen den Schüssen
     private float shootingTimer; // Timer, der verfolgt, wann zuletzt geschossen wurde
+    private bool isWeaponDamageInscreased = false;
 
     private void FixedUpdate() 
     {
@@ -44,6 +45,7 @@ public class WeaponController : MonoBehaviour
         ProjectileController projectileController = projectile.GetComponent<ProjectileController>();
         projectileController.SetDirection(calcProjectileSpread());
         projectileController.SetSpeed(shotSpeed);
+        Debug.Log(damagePerShot);
         projectileController.SetDamage(damagePerShot);
     }
 
@@ -53,5 +55,27 @@ public class WeaponController : MonoBehaviour
         float verticalOffset = Random.Range(-verticalSpread, verticalSpread);
         Vector3 direction = Quaternion.Euler(verticalOffset, horizontalOffset, verticalOffset) * firingPoint.forward;
         return direction;
+    }
+
+    public void IncreaseDamage(float amount, float time) {
+
+        if(!isWeaponDamageInscreased) {
+            isWeaponDamageInscreased = true;
+            int initialDamagePerShot = damagePerShot;
+
+            double increasedDamage = damagePerShot + damagePerShot * amount;
+
+            damagePerShot = (int)increasedDamage;
+            Debug.Log(damagePerShot);
+            StartCoroutine(ResetDamageAfterTime(initialDamagePerShot, time));
+        }
+    }
+
+    private IEnumerator ResetDamageAfterTime(int initialDamagePerShot, float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        damagePerShot = (int)initialDamagePerShot;
+        isWeaponDamageInscreased = false;
     }
 }
