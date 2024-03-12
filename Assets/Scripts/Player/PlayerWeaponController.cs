@@ -26,10 +26,10 @@ public class PlayerWeaponController : MonoBehaviour, PlayerStateListener
 
     [SerializeField] private WeaponUIManager weaponUIManager;
 
-
     private WeaponItem currentWeapon;
     private int weaponIndex;
     private bool weaponIsEnabled;
+    public GameObject powerupUIManager;
 
     private void Awake() 
     {
@@ -115,16 +115,6 @@ public class PlayerWeaponController : MonoBehaviour, PlayerStateListener
         weaponHolderObject.SetActive(isEnabled);
     }
 
-    public void ApplyDamageBuff(float amount, float time) {
-
-        // foreach (var weapon in startWeaponPrefabs)
-        // {
-        //     weapon.GetComponent<WeaponController>().IncreaseDamage(amount, time);
-        // }
-
-        currentWeapon.weaponPrefab.GetComponent<WeaponController>().IncreaseDamage(amount, time);
-    }
-
     public void SetWeaponOwned(WeaponType type) {
 
         foreach (WeaponItem weaponPrefab in weaponsCollection)
@@ -134,5 +124,9 @@ public class PlayerWeaponController : MonoBehaviour, PlayerStateListener
                 weaponUIManager.ApplyWeaponOwned(type);
             }
         }
+    }
+
+    public GameObject getCurrentWeapon() {
+        return currentWeapon.weaponPrefab;
     }
 }

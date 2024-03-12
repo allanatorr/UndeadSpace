@@ -15,8 +15,14 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private float verticalSpread;
 
     [SerializeField] public float shootingCooldown = 0.5f; // Cooldown-Zeit in Sekunden zwischen den Schüssen
+
     private float shootingTimer; // Timer, der verfolgt, wann zuletzt geschossen wurde
     private bool isWeaponDamageInscreased = false;
+
+    public bool IsWeaponDamageInscreased
+    {
+        get { return isWeaponDamageInscreased; }
+    }
 
     private void FixedUpdate() 
     {
@@ -57,16 +63,16 @@ public class WeaponController : MonoBehaviour
         return direction;
     }
 
-    public void IncreaseDamage(float amount, float time) {
+    public void IncreaseDamage(float amount, float time, Sprite image) {
 
         if(!isWeaponDamageInscreased) {
+
             isWeaponDamageInscreased = true;
             int initialDamagePerShot = damagePerShot;
 
             double increasedDamage = damagePerShot + damagePerShot * amount;
 
             damagePerShot = (int)increasedDamage;
-            Debug.Log(damagePerShot);
             StartCoroutine(ResetDamageAfterTime(initialDamagePerShot, time));
         }
     }
