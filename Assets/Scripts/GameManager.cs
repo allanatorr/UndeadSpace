@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI nextWaveWarningText;
 
+    public TextMeshProUGUI highScoreLabel;
+
+    private int currentHighScore = 0;
+
     static GameManager instance;
 
     public static GameManager GetInstance() {
@@ -30,7 +34,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        highScoreLabel.text = currentHighScore.ToString("D6");
     }
 
     // Update is called once per frame
@@ -51,5 +55,11 @@ public class GameManager : MonoBehaviour
 
     public void DisplayNextWaveWarning() {
         nextWaveWarningText.GetComponent<TextFadeInOut>().DisplayText("Nächste Welle kommt");
+    }
+
+    public void IncrementHighscore(int points) {
+
+        currentHighScore += points;
+        highScoreLabel.text = currentHighScore.ToString("D6");
     }
 }

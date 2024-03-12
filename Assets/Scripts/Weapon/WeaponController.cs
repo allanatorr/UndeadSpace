@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 public class WeaponController : MonoBehaviour
 {
     List<WeaponListener> listeners = new List<WeaponListener>();
-
+    
     private Transform firingPoint;
     [SerializeField] GameObject muzzle;
     [SerializeField] GameObject projectilePrefab;
@@ -19,6 +19,7 @@ public class WeaponController : MonoBehaviour
 
     [SerializeField] public float shootingCooldown = 0.5f; // Cooldown-Zeit in Sekunden zwischen den Schüssen
     private float shootingTimer; // Timer, der verfolgt, wann zuletzt geschossen wurde
+    private bool isWeaponDamageInscreased = false;
 
 
     [SerializeField] public static float maxAmmoCount;
@@ -59,6 +60,7 @@ public class WeaponController : MonoBehaviour
         ProjectileController projectileController = projectile.GetComponent<ProjectileController>();
         projectileController.SetDirection(calcProjectileSpread());
         projectileController.SetSpeed(shotSpeed);
+        Debug.Log(damagePerShot);
         projectileController.SetDamage(damagePerShot);
         projectileController.SetRange(range);
 
@@ -98,5 +100,26 @@ public class WeaponController : MonoBehaviour
     public void AddListener(WeaponListener weaponListener)
     {
         listeners.Add(weaponListener);
+    }
+    public void IncreaseDamage(float amount, float time) {
+
+        if(!isWeaponDamageInscreased) {
+            isWeaponDamageInscreased = true;
+            int initialDamagePerShot = damagePerShot;
+
+            double increasedDamage = damagePerShot + damagePerShot * amount;
+
+            damagePerShot = (int)increasedDamage;
+            Debug.Log(damagePerShot);
+            StartCoroutine(ResetDamageAfterTime(initialDamagePerShot, time));
+        }
+    }
+
+    private IEnumerator ResetDamageAfterTime(int initialDamagePerShot, float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        damagePerShot = (int)initialDamagePerShot;
+        isWeaponDamageInscreased = false;
     }
 }

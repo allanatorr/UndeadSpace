@@ -5,10 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Powerups/SpeedBuff")]
 public class SpeedBuff : PowerupEffect
 {
-    public int amount;
+    public float amount;
     public float time;
     public override void Apply(GameObject target)
     {
-        target.GetComponent<Player>().ApplySpeedBuff(amount, time);
+        target.GetComponent<PlayerPowerUp>().ApplySpeedBuff(amount, time);
+        GameManager.GetInstance().IncrementHighscore(200);
     }
 }
