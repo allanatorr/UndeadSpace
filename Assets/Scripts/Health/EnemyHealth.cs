@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class EnemyHealth : Health
 {
+    EnemyController enemyController;
+
+    private void Start() 
+    {
+        enemyController = gameObject.GetComponent<EnemyController>();
+    }
+
     public void ApplyDamage(float damage)
     {
+        if (enemyController.IsDead()) return;
+
         SubtractLife(damage);
 
 
@@ -13,7 +22,6 @@ public class EnemyHealth : Health
         {
             WaveSpawner.GetInstance().OnEnemyDeath(gameObject.GetComponent<Transform>().position);
             gameObject.GetComponent<EnemyController>().Die();
-            Destroy(gameObject);
             // Implementiere die Logik für den Tod des Spielers
         }
     }

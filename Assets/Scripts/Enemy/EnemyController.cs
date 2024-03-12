@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
+    // speed where the run animation looks right
+    private const float DEFAULT_SPEED = 2f;
+
     [SerializeField] private Animator animator;
     [SerializeField] private EnemyHitBox hitBox;
-    [SerializeField] private float health;
+    [SerializeField] private EnemyHurtBox hurtBox;
+    [SerializeField] private GameObject ui;
     [SerializeField] private float damage;
     [SerializeField] private float speed;
     [SerializeField] private float attackRadius;
@@ -20,10 +25,16 @@ public class EnemyController : MonoBehaviour
     private GameObject player;
     private bool isDead;
 
+    [SerializeField] private float runAnimationSpeed;
+    [SerializeField] private float attackAnimationSpeed;
 
     void Start()
     {
+        animator.SetFloat("runSpeed", runAnimationSpeed);
+        animator.SetFloat("attackSpeed", attackAnimationSpeed);
+
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = speed;
         player = GameObject.FindWithTag("Player");
         currentState = EnemyState.CHASING;
         hitBox.SetDamage(damage); 
@@ -39,7 +50,7 @@ public class EnemyController : MonoBehaviour
         {
             // start attacking
             currentState = EnemyState.ATTACKING;
-            agent.speed = 0;
+            agent.destination = transform.position;
             animator.SetBool("isChasing", false);
             animator.SetBool("isAttacking", true);
         } 
@@ -52,6 +63,7 @@ public class EnemyController : MonoBehaviour
         {
             // start chasing
             agent.speed = speed;
+            agent.destination = targetPosition;
             currentState = EnemyState.CHASING;
             animator.SetBool("isChasing", true);
             animator.SetBool("isAttacking", false);
@@ -90,22 +102,18 @@ public class EnemyController : MonoBehaviour
         timer += Time.deltaTime;
     }
 
-    // public void DealDamage(float damage)
-    // {
-    //     if (isDead) return;
-
-    //     health -= damage;
-    //     if (health <= 0)
-    //     {
-    //         isDead = true;
-    //         animator.SetBool("isDead", true);
-    //         agent.enabled = false;
-    //     }
-    // }
-
-    public void Die() {
+    public void Die() 
+    {
         isDead = true;
         animator.SetBool("isDead", true);
         agent.enabled = false;
+        hitBox.gameObject.SetActive(false);
+        hurtBox.gameObject.SetActive(false);
+        ui.gameObject.SetActive(false); 
+    }
+
+    public bool IsDead()
+    {
+        return isDead;
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
+    [SerializeField] private LayerMask collisionMask;
     [SerializeField] GameObject bulletHolePrefab;
     private float speed;
     private Vector3 direction;
@@ -13,7 +14,7 @@ public class ProjectileController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(gameObject, 5); // Zerstört das Bullet nach einer bestimmten Zeit
+        Destroy(gameObject, range); // Zerstört das Bullet nach einer bestimmten Zeit
     }
 
     // Update is called once per frame
@@ -44,16 +45,13 @@ public class ProjectileController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other) 
     {
-        if (other.gameObject.CompareTag("Wall"))
+        Debug.Log("Hit something: " + other.gameObject.layer);
+        ContactPoint contact = other.contacts[0];
+        Vector3 collisionPoint = contact.point;
+
+        if (other.gameObject.layer.Equals(9))
         {
-            // Get the contact point of collision
-            ContactPoint contact = other.contacts[0];
-            Vector3 collisionPoint = contact.point;
-
-            // Instantiate bullet hole at the collision point
-            Instantiate(bulletHolePrefab, collisionPoint, Quaternion.identity);
-
-            // Destroy the projectile
+            Debug.Log("hit wall");
             Destroy(gameObject);
         }
         else if (other.gameObject.CompareTag("Enemy Hurtbox"))
@@ -62,5 +60,5 @@ public class ProjectileController : MonoBehaviour
             other.gameObject.GetComponent<EnemyHurtBox>().DealDamage(damage);
             Destroy(gameObject);
         }
-    }
+    } 
 }

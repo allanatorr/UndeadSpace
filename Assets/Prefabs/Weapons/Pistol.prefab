@@ -104,7 +104,7 @@ MonoBehaviour:
   damagePerShot: 25
   projectilesPerShot: 1
   shotSpeed: 20
-  range: 0
+  range: 1
   horizontalSpread: 2
   verticalSpread: 2
   shootingCooldown: 0.25

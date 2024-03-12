@@ -104,10 +104,10 @@ MonoBehaviour:
   projectilePrefab: {fileID: 2946373576388238746, guid: a99310ab0b28dbf498133d68ce02fea8, type: 3}
   damagePerShot: 20
   projectilesPerShot: 1
-  shotSpeed: 30
-  range: 0
+  shotSpeed: 10
+  range: 1
   horizontalSpread: 5
   verticalSpread: 5
   shootingCooldown: 0.05
   startAmmoCount: 10
-  currentAmmo: 0
+  currentAmmoCount: 0

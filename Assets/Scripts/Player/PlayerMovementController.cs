@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour, PlayerStateListener
 {
+    [SerializeField] private LayerMask mouseRayCastHitLayer;
     [SerializeField] private float runningSpeed;
     [SerializeField] private float sprintSpeed;
     [SerializeField] private float currentSpeed;
@@ -67,7 +68,7 @@ public class PlayerMovementController : MonoBehaviour, PlayerStateListener
         RaycastHit _hit;
         Ray _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(_ray, out _hit))    
+        if (Physics.Raycast(_ray, out _hit, mouseRayCastHitLayer))    
         {
             Vector3 hitPointHorizontal = new Vector3(_hit.point.x, transform.position.y, _hit.point.z);
             transform.LookAt(hitPointHorizontal);

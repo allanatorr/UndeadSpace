@@ -60,6 +60,7 @@ public class WeaponController : MonoBehaviour
         projectileController.SetDirection(calcProjectileSpread());
         projectileController.SetSpeed(shotSpeed);
         projectileController.SetDamage(damagePerShot);
+        projectileController.SetRange(range);
 
     }
 

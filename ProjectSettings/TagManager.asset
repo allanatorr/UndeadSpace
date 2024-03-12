@@ -10,6 +10,7 @@ TagManager:
   - Wall
   - Enemy Hurtbox
   - PlayerHurtbox
+  - Environment
   layers:
   - Default
   - TransparentFX
@@ -19,8 +20,8 @@ TagManager:
   - UI
   - Projectile
   - IgnoreLayer
-  - 
-  - 
+  - Mouse Layer
+  - Environment
   - 
   - 
   - 
