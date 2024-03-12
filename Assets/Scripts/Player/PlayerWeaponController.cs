@@ -3,14 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class WeaponItem
+{
+    public WeaponType type;
+    public String weaponImage;
+    public KeyCode weaponKey;
+    public bool isOwned; // Besitzstatus der Waffe
+    public bool isUsed; // Wird gerade benutzt
+    public GameObject weaponPrefab; // UI-Element für diese Waffe
+}
+
 public class PlayerWeaponController : MonoBehaviour, PlayerStateListener
 {
     [SerializeField] private Transform firingPoint;
     [SerializeField] private GameObject weaponHolderObject;
     [SerializeField] private List<GameObject> startWeaponPrefabs;
 
-    private List<GameObject> allWeapons = new List<GameObject>();
-    private GameObject currentWeapon;
+    // private List<GameObject> allWeapons = new List<GameObject>();
+
+    [SerializeField] private List<WeaponItem> weaponsCollection = new List<WeaponItem>();
+
+    [SerializeField] private WeaponUIManager weaponUIManager;
+
+
+    private WeaponItem currentWeapon;
     private int weaponIndex;
     private bool weaponIsEnabled;
 
@@ -23,8 +40,13 @@ public class PlayerWeaponController : MonoBehaviour, PlayerStateListener
     {
         weaponIndex = 0;
         InstantiateWeapons();
-        currentWeapon = allWeapons[weaponIndex];
-        currentWeapon.SetActive(true);
+        currentWeapon = weaponsCollection[weaponIndex];
+        currentWeapon.weaponPrefab.SetActive(true);
+        currentWeapon.isOwned = true;
+        currentWeapon.isUsed = true;
+        weaponUIManager.initializePanels(weaponsCollection);
+        weaponUIManager.ApplyWeaponInUse(currentWeapon.type);
+        weaponUIManager.ApplyWeaponOwned(currentWeapon.type);
     }
 
     void FixedUpdate() 
@@ -39,41 +61,52 @@ public class PlayerWeaponController : MonoBehaviour, PlayerStateListener
 
     private void InstantiateWeapons()
     {
-        foreach (GameObject weaponPrefab in startWeaponPrefabs)
+        foreach (WeaponItem weaponPrefab in weaponsCollection)
         {
-            GameObject weapon = Instantiate(weaponPrefab, weaponHolderObject.transform);
+            GameObject weapon = Instantiate(weaponPrefab.weaponPrefab, weaponHolderObject.transform);
             WeaponController weaponController = weapon.GetComponent<WeaponController>();
             weaponController.SetFiringPoint(firingPoint);
             weapon.SetActive(false);
-            allWeapons.Add(weapon);
+            weaponPrefab.weaponPrefab = weapon;
         }
     }
 
     public void EquipNextWeapon()
     {
-        weaponIndex = (weaponIndex + 1) % allWeapons.Count;
+        weaponIndex = (weaponIndex + 1) % weaponsCollection.Count;
+        if(!weaponsCollection[weaponIndex].isOwned) EquipNextWeapon();
         EquipWeapon();
     }
 
     public void EquipPreviousWeapon()
     {
-        if (weaponIndex == 0) weaponIndex = allWeapons.Count - 1;
+        if (weaponIndex == 0) weaponIndex = weaponsCollection.Count - 1;
         else weaponIndex -= 1;
+        if(!weaponsCollection[weaponIndex].isOwned) EquipPreviousWeapon();
         EquipWeapon();
- 
+        
     }
 
     private void EquipWeapon()
     {
-        currentWeapon.SetActive(false);
-        currentWeapon = allWeapons[weaponIndex];
-        currentWeapon.SetActive(true);
+        currentWeapon.weaponPrefab.SetActive(false);
+        currentWeapon = weaponsCollection[weaponIndex];
+        currentWeapon.weaponPrefab.SetActive(true);
+
+        foreach (WeaponItem weaponPrefab in weaponsCollection)
+        {
+            weaponPrefab.isUsed = false;
+        }
+
+        currentWeapon.isUsed = true;
+
+        weaponUIManager.ApplyWeaponInUse(currentWeapon.type);
     }
   
     public void FireCurrentWeapon()
     {
         if (!weaponIsEnabled) return;
-        currentWeapon.GetComponent<WeaponController>().Fire();
+        currentWeapon.weaponPrefab.GetComponent<WeaponController>().Fire();
     }
 
     public void OnWeaponStatusChange(bool isEnabled)
@@ -89,6 +122,17 @@ public class PlayerWeaponController : MonoBehaviour, PlayerStateListener
         //     weapon.GetComponent<WeaponController>().IncreaseDamage(amount, time);
         // }
 
-        currentWeapon.GetComponent<WeaponController>().IncreaseDamage(amount, time);
+        currentWeapon.weaponPrefab.GetComponent<WeaponController>().IncreaseDamage(amount, time);
+    }
+
+    public void SetWeaponOwned(WeaponType type) {
+
+        foreach (WeaponItem weaponPrefab in weaponsCollection)
+        {
+            if(weaponPrefab.type == type) {
+                weaponPrefab.isOwned = true;
+                weaponUIManager.ApplyWeaponOwned(type);
+            }
+        }
     }
 }

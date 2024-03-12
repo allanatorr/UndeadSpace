@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   muzzle: {fileID: 5783043528643993624}
   projectilePrefab: {fileID: 2946373576388238746, guid: 3b39072482659c640a354f651b70d28a, type: 3}
-  damagePerShot: 10
+  damagePerShot: 12
   projectilesPerShot: 20
   shotSpeed: 50
   range: 0
