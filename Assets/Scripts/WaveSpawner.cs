@@ -8,7 +8,7 @@ public class WaveSpawner : MonoBehaviour
     public GameObject enemyPrefab;
     public GameObject player;
     
-    private int currentWave = 30;
+    private int currentWave = 0;
     public int enemiesAlive = 0;
     private bool waitingForNextWave = false;
     

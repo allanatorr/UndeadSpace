@@ -27,7 +27,7 @@ public class PlayerHealth : Health {
 
 			//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
-            GameOver.GetInstance().setHighScore(GameManager.GetInstance().highScoreLabel.text);
+            GameOver.GetInstance().setHighScore(GameManager.GetInstance().CurrentHighScore.ToString());
         }
     }
 
