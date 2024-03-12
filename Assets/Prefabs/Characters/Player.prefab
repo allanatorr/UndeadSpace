@@ -972,6 +972,7 @@ MonoBehaviour:
     isUsed: 0
     weaponPrefab: {fileID: 5242797513369043602, guid: dbe51eb84f1a1234fb13a92cb47182ff, type: 3}
   weaponUIManager: {fileID: 0}
+  powerupUIManager: {fileID: 0}
 --- !u!114 &3301148751163943394
 MonoBehaviour:
   m_ObjectHideFlags: 0
