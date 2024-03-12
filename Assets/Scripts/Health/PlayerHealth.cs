@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,7 +24,10 @@ public class PlayerHealth : Health {
             GameWaveUI.SetActive(false);
             // Time.timeScale = 0f;
             GameIsPaused = true;
+
 			//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+            GameOver.GetInstance().setHighScore(GameManager.GetInstance().highScoreLabel.text);
         }
     }
 
